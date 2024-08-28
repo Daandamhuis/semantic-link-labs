@@ -73,8 +73,7 @@ def optimize_lakehouse_tables(
 
     spark = SparkSession.builder.getOrCreate()
 
-    i = 1
-    for _, r in (bar := tqdm(tables_filt.iterrows())):
+    for i, (_, r) in enumerate(tqdm(tables_filt.iterrows()), start=1):
         tableName = r["Table Name"]
         tablePath = r["Location"]
         bar.set_description(f"Optimizing the '{tableName}' table...")
@@ -83,4 +82,3 @@ def optimize_lakehouse_tables(
         print(
             f"{icons.green_dot} The '{tableName}' table has been optimized. ({str(i)}/{str(tableCount)})"
         )
-        i += 1
